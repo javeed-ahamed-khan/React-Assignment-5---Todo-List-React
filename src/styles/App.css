@@ -15,10 +15,3 @@ button {
 textarea {
   background-color: pink;
 }
-
-.delete {
-  display: inline-block;
-}
-.editTask {
-  display: block;
-}

@@ -13,7 +13,7 @@ const TodoList = ({ todos, deleteTask, editTask, updateTask }) => {
       />
     );
   });
-  return <ul>{items}</ul>;
+  return <div>{items}</div>;
 };
 
 export default TodoList;

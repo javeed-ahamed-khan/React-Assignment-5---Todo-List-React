@@ -5,30 +5,34 @@ const ListItems = ({ todo, deleteTask, editTask, updateTask }) => {
   const storeVal = (e) => {
     val = e.target.value;
   };
-  return todo.is_editing ? (
-    <>
-      <textarea
-        className="editTask"
-        defaultValue={todo.todo_val}
-        onChange={storeVal}
-      ></textarea>
-      <button
-        className="saveTask"
-        onClick={() => updateTask(todo.todo_id, val)}
-      >
-        Update
-      </button>
-    </>
-  ) : (
-    <>
-      <li className="list">{todo.todo_val}</li>
-      <button className="edit" onClick={() => editTask(todo.todo_id)}>
-        Edit
-      </button>
-      <button className="delete" onClick={() => deleteTask(todo.todo_id)}>
-        Delete
-      </button>
-    </>
+  return (
+    <div className="list">
+      {todo.is_editing ? (
+        <>
+          <textarea
+            className="editTask"
+            defaultValue={todo.todo_val}
+            onChange={storeVal}
+          ></textarea>
+          <button
+            className="saveTask"
+            onClick={() => updateTask(todo.todo_id, val)}
+          >
+            save
+          </button>
+        </>
+      ) : (
+        <>
+          {todo.todo_val}
+          <button className="edit" onClick={() => editTask(todo.todo_id)}>
+            edit
+          </button>
+          <button className="delete" onClick={() => deleteTask(todo.todo_id)}>
+            delete
+          </button>
+        </>
+      )}
+    </div>
   );
 };
 
