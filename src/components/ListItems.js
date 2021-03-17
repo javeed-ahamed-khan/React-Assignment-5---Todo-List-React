@@ -24,12 +24,16 @@ const ListItems = ({ todo, deleteTask, editTask, updateTask }) => {
       ) : (
         <>
           <p>{todo.todo_val}</p>
-          <button className="edit" onClick={() => editTask(todo.todo_id)}>
-            edit
-          </button>
-          <button className="delete" onClick={() => deleteTask(todo.todo_id)}>
-            delete
-          </button>
+          <span>
+            <button className="edit" onClick={() => editTask(todo.todo_id)}>
+              edit
+            </button>
+          </span>
+          <span>
+            <button className="delete" onClick={() => deleteTask(todo.todo_id)}>
+              delete
+            </button>
+          </span>
         </>
       )}
     </div>
