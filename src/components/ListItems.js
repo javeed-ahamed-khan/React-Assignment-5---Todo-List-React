@@ -6,7 +6,7 @@ const ListItems = ({ todo, deleteTask, editTask, updateTask }) => {
     val = e.target.value;
   };
   return (
-    <div className="list">
+    <div>
       {todo.is_editing ? (
         <>
           <textarea
@@ -23,7 +23,7 @@ const ListItems = ({ todo, deleteTask, editTask, updateTask }) => {
         </>
       ) : (
         <>
-          <p>{todo.todo_val}</p>
+          <p className="list">{todo.todo_val}</p>
           <span>
             <button className="edit" onClick={() => editTask(todo.todo_id)}>
               edit
