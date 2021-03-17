@@ -9,6 +9,8 @@ const ListItems = ({ todo, deleteTask, editTask, updateTask }) => {
     <div>
       {todo.is_editing ? (
         <>
+          <p className="list">{todo.todo_val}</p>
+
           <textarea
             className="editTask"
             defaultValue={todo.todo_val}
