@@ -6,7 +6,7 @@ const ListItems = ({ todo, deleteTask, editTask, updateTask }) => {
     val = e.target.value;
   };
   return (
-    <li>
+    <li className="list">
       {todo.is_editing ? (
         <>
           <textarea
