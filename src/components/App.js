@@ -1,73 +1,106 @@
-import React, { useState, useRef } from "react";
-import "./../styles/App.css";
-import AddTodo from "./AddTodo";
+import React, { useState, useRef, useEffect } from "react";
 import TodoList from "./TodoList";
+import "./../styles/App.css";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [inputList, setInputList] = useState("");
+  const [saveInputList, setSaveInputList] = useState("");
+  const [editIndex, setEditIndex] = useState(-1);
+  const [stopFirstTime, setStopFirstTime] = useState(false);
+  const [items, setItems] = useState([]);
+  const inputRef = useRef(null);
+  const editRef = useRef(null);
 
-  const get_id = () => {
-    let new_id = 0;
-    todos.forEach((e) => {
-      if (e.todo_id > new_id) {
-        new_id = e.todo_id;
-      }
-    });
-    new_id++;
-    return new_id;
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [items]);
+
+  useEffect(() => {
+    if (stopFirstTime) editRef.current.focus();
+    else setStopFirstTime(true);
+  }, [saveInputList]);
+
+  const inputEvents = (event) => {
+    setInputList(event.target.value);
   };
 
-  const insertTask = (val) => {
-    if (val) {
-      const temp = {
-        todo_id: get_id(),
-        todo_val: val,
-        is_editing: false,
+  const editSaveList = (event) => {
+    setSaveInputList(event.target.value);
+  };
+
+  const addItem = () => {
+    if (inputList !== "") {
+      const newTodoObj = {
+        value: inputList,
+        isEditing: false,
       };
-      const newTodo = [...todos, temp];
-      setTodos(newTodo);
-      document.getElementById("task").value = "";
+      setItems((oldItems) => [...oldItems, newTodoObj]);
+      setInputList("");
     }
   };
-  const editTask = (id) => {
-    const newTodo = todos.filter((e) => {
-      if (e.todo_id == id) return (e.is_editing = true);
-      return e;
+
+  const deleteItem = (id) => {
+    setItems((oldItems) => {
+      return oldItems.filter((element, index) => index !== id);
     });
-    setTodos(newTodo);
   };
-  const updateTask = (id, val) => {
-    if (val) {
-      const newTodo = todos.map((e) => {
-        if (e.todo_id == id) {
-          const newObj = {
-            todo_id: id,
-            todo_val: val,
-            is_editing: false,
-          };
-          return newObj;
-        }
-        return e;
-      });
-      setTodos(newTodo);
+
+  const editItem = (id) => {
+    setEditIndex(id);
+    const copiedList = [...items];
+    const edit_element = copiedList.filter((element, index) => index === id);
+    edit_element[0].isEditing = true;
+    setItems(copiedList);
+    setSaveInputList(edit_element[0].value);
+  };
+
+  const updateInputList = () => {
+    const copiedList = [...items];
+    const edit_element = copiedList.filter(
+      (element, index) => index === editIndex
+    );
+    if (saveInputList !== "") {
+      edit_element[0].value = saveInputList;
+      edit_element[0].isEditing = false;
+      setItems(copiedList);
     }
-  };
-  const deleteTask = (id) => {
-    const newTodo = todos.filter((e) => {
-      return e.todo_id != id;
-    });
-    setTodos(newTodo);
   };
 
   return (
     <div id="main">
-      <AddTodo insertTask={insertTask} />
-      <TodoList
-        todos={todos}
-        deleteTask={deleteTask}
-        editTask={editTask}
-        updateTask={updateTask}
-      />
+      <div className="center_div">
+        <br />
+        <h1>ToDo List</h1>
+        <br />
+        <input
+          id="task"
+          ref={inputRef}
+          value={inputList}
+          onChange={inputEvents}
+          type="text"
+          placeholder="Add a item"
+        />
+        <button id="btn" onClick={addItem}>
+          {" "}
+          +{" "}
+        </button>
+
+        <ol>
+          {items.map((item, index) => (
+            <TodoList
+              key={index}
+              item={item}
+              id={index}
+              deleteItem={deleteItem}
+              editItem={editItem}
+              editSaveList={editSaveList}
+              saveInputList={saveInputList}
+              updateInputList={updateInputList}
+              editRef={editRef}
+            />
+          ))}
+        </ol>
+      </div>
     </div>
   );
 }

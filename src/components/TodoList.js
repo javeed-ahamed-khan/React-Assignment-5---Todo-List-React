@@ -1,19 +1,51 @@
 import React from "react";
-import ListItems from "./ListItems";
 
-const TodoList = ({ todos, deleteTask, editTask, updateTask }) => {
-  const items = todos.map((e) => {
+const TodoList = ({
+  item,
+  id,
+  deleteItem,
+  editItem,
+  editSaveList,
+  saveInputList,
+  updateInputList,
+  editRef,
+}) => {
+  if (item.isEditing) {
     return (
-      <ListItems
-        key={e.todo_id}
-        todo={e}
-        deleteTask={deleteTask}
-        editTask={editTask}
-        updateTask={updateTask}
-      />
+      <div className="edit_list">
+        <input
+          ref={editRef}
+          value={saveInputList}
+          onChange={editSaveList}
+          className="editTask"
+        ></input>
+        <button className="saveTask" onClick={updateInputList}>
+          Save
+        </button>
+      </div>
     );
-  });
-  return <div>{items}</div>;
+  }
+
+  return (
+    <div className="todo_style">
+      <i
+        className="fa fa-times delete"
+        aria-hidden="true"
+        onClick={() => deleteItem(id)}
+      >
+        delete
+      </i>
+
+      <li className="list">{item.value}</li>
+      <i
+        className="fas fa-edit edit"
+        aria-hidden="true"
+        onClick={() => editItem(id)}
+      >
+        edit
+      </i>
+    </div>
+  );
 };
 
 export default TodoList;
