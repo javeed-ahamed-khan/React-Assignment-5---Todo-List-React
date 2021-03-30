@@ -7,7 +7,7 @@ const AddTodo = ({ insertTask }) => {
   };
   return (
     <div>
-      <textarea id="task" onChange={storeVal}></textarea>
+      <input id="task" onChange={storeVal}></input>
       <button id="btn" onClick={() => insertTask(val)}>
         Add Task
       </button>

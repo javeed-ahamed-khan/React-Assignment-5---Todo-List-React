@@ -11,11 +11,11 @@ const ListItems = ({ todo, deleteTask, editTask, updateTask }) => {
         <>
           <p>{todo.todo_val}</p>
 
-          <textarea
+          <input
             className="editTask"
-            defaultValue={todo.todo_val}
+            value={todo.todo_val}
             onChange={storeVal}
-          ></textarea>
+          ></input>
           <button
             className="saveTask"
             onClick={() => updateTask(todo.todo_id, val)}
